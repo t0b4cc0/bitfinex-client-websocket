@@ -68,6 +68,8 @@ namespace Bitfinex.Client.Websocket.Websockets
             var buffer = Encoding.UTF8.GetBytes(message);
             var messageSegment = new ArraySegment<byte>(buffer);
             var client = await GetClient();
+            if (_cancelation == null)
+                _cancelation = new CancellationTokenSource();
             await client.SendAsync(messageSegment, WebSocketMessageType.Text, true, _cancelation.Token);
         }
 
@@ -104,7 +106,7 @@ namespace Bitfinex.Client.Websocket.Websockets
             if (_disposing)
                 return;
             Log.Information(L("Reconnecting..."));
-            _cancelation.Cancel();
+            _cancelation?.Cancel();
             await Task.Delay(10000);
 
             _cancelation = new CancellationTokenSource();
