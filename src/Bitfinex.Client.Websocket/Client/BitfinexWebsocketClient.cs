@@ -26,6 +26,9 @@ namespace Bitfinex.Client.Websocket.Client
 
         private readonly Dictionary<int, Action<JToken>> _channelIdToHandler = new Dictionary<int, Action<JToken>>();
 
+        string Apikey = "";
+        string Secret = "";
+
         public BitfinexWebsocketClient(BitfinexWebsocketCommunicator communicator)
         {
             BfxValidations.ValidateInput(communicator, nameof(communicator));
@@ -52,10 +55,21 @@ namespace Bitfinex.Client.Websocket.Client
 
         public Task Authenticate(string apiKey, string apiSecret)
         {
+            Apikey = apiKey;
+            Secret = apiSecret;
             return Send(new AuthenticationRequest(apiKey, apiSecret));
         }
+        
+        public Task Authenticate()
+        {
+            return Send(new AuthenticationRequest(Apikey, Secret));
+        }
 
-
+        public void SetKeys(string apiKey, string apiSecret)
+        {
+            Apikey = apiKey;
+            Secret = apiSecret;
+        }
 
         private void HandleMessage(string message)
         {
