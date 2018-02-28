@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Serilog;
+//using Serilog;
 
 namespace Bitfinex.Client.Websocket.Responses.Wallets
 {
@@ -55,7 +55,7 @@ namespace Bitfinex.Client.Websocket.Responses.Wallets
                 case var s when s.StartsWith("funding"):
                     return WalletType.Funding;
             }
-            Log.Warning("Can't parse WalletType, input: " + safe);
+            //Log.Warning("Can't parse WalletType, input: " + safe);
             return WalletType.Undefined;
         }
     }

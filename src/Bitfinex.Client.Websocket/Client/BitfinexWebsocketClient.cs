@@ -15,7 +15,7 @@ using Bitfinex.Client.Websocket.Validations;
 using Bitfinex.Client.Websocket.Websockets;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Serilog;
+//using Serilog;
 
 namespace Bitfinex.Client.Websocket.Client
 {
@@ -91,7 +91,7 @@ namespace Bitfinex.Client.Websocket.Client
             }
             catch (Exception e)
             {
-                Log.Error(e, L("Exception while receiving message"));
+                //Log.Error(e, L("Exception while receiving message"));
             }
         }
 
@@ -123,14 +123,14 @@ namespace Bitfinex.Client.Websocket.Client
 
         private void OnError(ErrorResponse error)
         {
-            Log.Error(L($"Error received - message: {error.Msg}, code: {error.Code}"));
+            //Log.Error(L($"Error received - message: {error.Msg}, code: {error.Code}"));
             Streams.Raise(error);
         }
 
         private void OnAuthentication(AuthenticationResponse response)
         {
             if (!response.IsAuthenticated)
-                Log.Warning(L("Authentication failed. Code: " + response.Code));
+                //Log.Warning(L("Authentication failed. Code: " + response.Code));
             Streams.Raise(response);
         }
 
@@ -139,7 +139,7 @@ namespace Bitfinex.Client.Websocket.Client
             var parsed = Deserialize<JArray>(msg);
             if (parsed.Count() < 2)
             {
-                Log.Warning(L("Invalid message format, too low items"));
+                //Log.Warning(L("Invalid message format, too low items"));
                 return;
             }
 

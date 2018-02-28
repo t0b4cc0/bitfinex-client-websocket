@@ -2,7 +2,7 @@
 using Bitfinex.Client.Websocket.Exceptions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Serilog;
+//using Serilog;
 
 namespace Bitfinex.Client.Websocket.Responses.Orders
 {
@@ -80,7 +80,7 @@ namespace Bitfinex.Client.Websocket.Responses.Orders
                 case var s when s.StartsWith("canceled"):
                     return OrderStatus.Canceled;
             }
-            Log.Warning("Can't parse OrderStatus, input: " + safe);
+            //Log.Warning("Can't parse OrderStatus, input: " + safe);
             return OrderStatus.Undefined;
         }
 
@@ -128,7 +128,7 @@ namespace Bitfinex.Client.Websocket.Responses.Orders
                 case var s when s.StartsWith("exchange fok"):
                     return OrderType.ExchangeFok;
             }
-            Log.Warning("Can't parse OrderStatus, input: " + safe);
+            //Log.Warning("Can't parse OrderStatus, input: " + safe);
             return OrderType.Undefined;
         }
 

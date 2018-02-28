@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Bitfinex.Client.Websocket.Validations;
-using Serilog;
+//using Serilog;
 
 namespace Bitfinex.Client.Websocket.Websockets
 {
@@ -44,7 +44,7 @@ namespace Bitfinex.Client.Websocket.Websockets
         public void Dispose()
         {
             _disposing = true;
-            Log.Information(L("Disposing.."));
+            //Log.Information(L("Disposing.."));
             _lastChanceTimer?.Dispose();
             _cancelation?.Cancel();
             _client?.Abort();
@@ -54,7 +54,7 @@ namespace Bitfinex.Client.Websocket.Websockets
 
         public Task Start()
         {
-            Log.Information(L("Starting.."));
+            //Log.Information(L("Starting.."));
             _cancelation = new CancellationTokenSource();
 
             return StartClient(_url, _cancelation.Token);
@@ -64,7 +64,7 @@ namespace Bitfinex.Client.Websocket.Websockets
         {
             BfxValidations.ValidateInput(message, nameof(message));
 
-            Log.Debug(L($"Sending:  {message}"));
+            //Log.Debug(L($"Sending:  {message}"));
             var buffer = Encoding.UTF8.GetBytes(message);
             var messageSegment = new ArraySegment<byte>(buffer);
             var client = await GetClient();
@@ -86,7 +86,7 @@ namespace Bitfinex.Client.Websocket.Websockets
             }
             catch (Exception e)
             {
-                Log.Error(e, L("Exception while connecting"));
+                //Log.Error(e, L("Exception while connecting"));
                 await Reconnect();
             }
             
@@ -105,9 +105,9 @@ namespace Bitfinex.Client.Websocket.Websockets
         {
             if (_disposing)
                 return;
-            Log.Information(L("Reconnecting..."));
+            //Log.Information(L("Reconnecting..."));
             _cancelation?.Cancel();
-            await Task.Delay(10000);
+            //await Task.Delay(10000);
 
             _cancelation = new CancellationTokenSource();
             await StartClient(_url, _cancelation.Token);
@@ -132,7 +132,7 @@ namespace Bitfinex.Client.Websocket.Websockets
                 } while (!result.EndOfMessage);
 
                 var received = resultMessage.ToString();
-                Log.Debug(L($"Received:  {received}"));
+                //Log.Debug(L($"Received:  {received}"));
                 _lastReceivedMsg = DateTime.UtcNow;
                 _messageReceivedSubject.OnNext(received);
 
@@ -142,11 +142,11 @@ namespace Bitfinex.Client.Websocket.Websockets
         private async Task LastChance(object state)
         {
             var diffMin = Math.Abs(DateTime.UtcNow.Subtract(_lastReceivedMsg).TotalMinutes);
-            if(diffMin > 1)
-                Log.Information(L($"Last message received {diffMin} min ago"));
+            //if(diffMin > 1)
+                //Log.Information(L($"Last message received {diffMin} min ago"));
             if (diffMin > 3)
             {
-                Log.Information(L("Last message received more than 3 min ago. Hard restart.."));
+                //Log.Information(L("Last message received more than 3 min ago. Hard restart.."));
 
                 _client?.Abort();
                 _client?.Dispose();

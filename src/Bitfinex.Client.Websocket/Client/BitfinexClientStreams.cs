@@ -11,7 +11,7 @@ using Bitfinex.Client.Websocket.Responses.Tickers;
 using Bitfinex.Client.Websocket.Responses.Trades;
 using Bitfinex.Client.Websocket.Responses.Wallets;
 using Newtonsoft.Json.Linq;
-using Serilog;
+//using Serilog;
 
 namespace Bitfinex.Client.Websocket.Client
 {
@@ -73,14 +73,14 @@ namespace Bitfinex.Client.Websocket.Client
             var itemsCount = token?.Count();
             if (token == null || itemsCount < 2)
             {
-                Log.Warning($"Invalid message format, too low items");
+                //Log.Warning($"Invalid message format, too low items");
                 return;
             }
 
             var secondItem = token[1];
             if (secondItem.Type != JTokenType.String)
             {
-                Log.Warning(L("Invalid message format, second param is not string"));
+                //Log.Warning(L("Invalid message format, second param is not string"));
                 return;
             }
             var msgType = (string)secondItem;
@@ -92,7 +92,7 @@ namespace Bitfinex.Client.Websocket.Client
 
             if (itemsCount < 3)
             {
-                Log.Warning(L("Invalid message format, too low items"));
+                //Log.Warning(L("Invalid message format, too low items"));
                 return;
             }
 
@@ -164,7 +164,7 @@ namespace Bitfinex.Client.Websocket.Client
             var data = token[2];
             if (data.Type != JTokenType.Array)
             {
-                Log.Warning(L("Wallets - Invalid message format, third param not array"));
+                //Log.Warning(L("Wallets - Invalid message format, third param not array"));
                 return;
             }
 
@@ -178,7 +178,7 @@ namespace Bitfinex.Client.Websocket.Client
             var data = token[2];
             if (data.Type != JTokenType.Array)
             {
-                Log.Warning(L("Wallet update - Invalid message format, third param not array"));
+                //Log.Warning(L("Wallet update - Invalid message format, third param not array"));
                 return;
             }
 
@@ -191,7 +191,7 @@ namespace Bitfinex.Client.Websocket.Client
             var data = token[2];
             if (data.Type != JTokenType.Array)
             {
-                Log.Warning(L("Orders - Invalid message format, third param not array"));
+                //Log.Warning(L("Orders - Invalid message format, third param not array"));
                 return;
             }
 
@@ -219,7 +219,7 @@ namespace Bitfinex.Client.Websocket.Client
             var data = token[2];
             if (data.Type != JTokenType.Array)
             {
-                Log.Warning(L("Order info - Invalid message format, third param not array"));
+                //Log.Warning(L("Order info - Invalid message format, third param not array"));
                 return null;
             }
 
